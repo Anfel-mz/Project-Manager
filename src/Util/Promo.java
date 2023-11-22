@@ -1,4 +1,4 @@
-package Util;
+package util;
 
 public enum Promo {
 	FULL_TIME, 
