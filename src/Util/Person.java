@@ -1,34 +1,55 @@
-package Util;
+package util;
 
 import java.time.LocalDate;
 
 public abstract class Person {
-	
-	private static int idcount = 0;
-	private int id = ++idcount;
-	
 
+	
+	private int id;
 	private String fullName;
 	private LocalDate dateOfBirth;
 	private String address;
 	private Sex sex;
 	private String email;
 	
-	
 	protected Person() {
 		
 	}
 	
-	protected Person(String name, Sex s, String d, String addr, String email) {
+	protected Person(int id, String name, LocalDate d, Sex s, String addr, String email) {
 		this.fullName = name;
 		this.address = addr;
-		this.dateOfBirth = LocalDate.parse(d);
+		this.dateOfBirth = d; 
+		this.email = email;
+		this.sex = s;
+		this.id = id;
+	}
+	
+	protected Person(int id, String name, String d, String s, String addr, String email) {
+		this.fullName = name;
+		this.address = addr;
+		this.dateOfBirth = LocalDate.parse(d); 
+		this.email = email;
+		this.sex = Sex.valueOf(s);
+		this.id = id;
+	}
+	
+	protected Person( String name, LocalDate d, Sex s, String addr, String email) {
+		this.fullName = name;
+		this.address = addr;
+		this.dateOfBirth = d; 
 		this.email = email;
 		this.sex = s;
 	}
-	
-	
-	
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public String getFullName() {
 		return fullName;
 	}
@@ -68,8 +89,6 @@ public abstract class Person {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
-	public int getId() {
-		return id;
-	}
+	
+	
 }
