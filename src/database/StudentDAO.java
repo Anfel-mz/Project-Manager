@@ -143,7 +143,6 @@ public class StudentDAO implements CRUDDAO<Student,Integer>{
 
 =======
 package database;
-import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -154,12 +153,11 @@ import java.util.ArrayList;
 import model.*;
 import util.*;
 
-public class StudentDAO implements CRUDDAO<Student,Integer>{
+public class StudentDAO extends AbstractDAO implements CRUDDAO<Student>{
     
-	private Connection connection;
 	
 	public StudentDAO() {
-		connection = DatabaseConnection.getConnection();
+		super();
 	}
 
 
@@ -184,35 +182,6 @@ public class StudentDAO implements CRUDDAO<Student,Integer>{
 	    }
 		
 	}
-
-	@Override
-	public Student read (Integer id) {
-		
-		Student student = null;
-        ResultSet resultSet = null;
-        String query = "SELECT * FROM student WHERE ID_student = ?";
-        
-        try {
-            PreparedStatement preparedStatement = this.connection.prepareStatement(query);
-            preparedStatement.setInt(1, id);
-            resultSet = preparedStatement.executeQuery();
-
-            if (resultSet.next()) {
-                String fullName = resultSet.getString("fullName");
-                LocalDate dateOfBirth = resultSet.getDate("dateOfBirth").toLocalDate();
-                Sex sex = Sex.valueOf(resultSet.getString("sex"));
-                String address = resultSet.getString("address");
-                String email = resultSet.getString("email");
-                int programId = resultSet.getInt("ID_program");
-
-                student = new Student(id, fullName, dateOfBirth, sex, address, email, programId);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } 
-
-        return student;
-    }
 	
 
 	@Override

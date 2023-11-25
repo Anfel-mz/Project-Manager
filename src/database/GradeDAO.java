@@ -1,13 +1,10 @@
 package database;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 import model.*;
-import util.*;
 
 /**
  * Grade (#ID_student1, #ID_student2, #ID_project, gradeEssay, 
@@ -16,12 +13,11 @@ import util.*;
  *
  */
 
-public class GradeDAO implements CRUDDAO<Grade, Integer>{
+public class GradeDAO extends AbstractDAO implements CRUDDAO<Grade>{
 	
-	private Connection connection;
 	
 	public GradeDAO() {
-		connection = DatabaseConnection.getConnection();
+		super();
 	}
 
 	@Override
@@ -44,41 +40,8 @@ public class GradeDAO implements CRUDDAO<Grade, Integer>{
     }
 		
 	}
-
-	@Override
-	public Grade read(Integer a) {
-		return null;
-	}
 	
-	public Grade read(int idstudent1, int idstudent2, int idProject) {
-			
-			Grade grade = null;
-	        ResultSet resultSet = null;
-	        String query = "SELECT * FROM grade WHERE ID_student1 = ? AND ID_student2 = ? AND ID_Project = ?";
-	    
-	    try {
-	        PreparedStatement preparedStatement = this.connection.prepareStatement(query);
-	        preparedStatement.setInt(1, idstudent1); 
-	        preparedStatement.setInt(2, idstudent2); 
-	        preparedStatement.setInt(3, idProject);   
-	        
-	        resultSet = preparedStatement.executeQuery();
 	
-	        if (resultSet.next()) {
-	        	int gessay = resultSet.getInt("gradeEssay");
-	        	int gpresentation = resultSet.getInt("gradePresentation");
-	        	int finalgrade = resultSet.getInt("finalGrade");
-
-
-	            grade = new Grade (getStudent(idstudent1), getStudent(idstudent2), idProject,gessay, gpresentation, finalgrade);
-	        }
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    } 
-	
-	    return grade;
-	}
-
 	@Override
 	public void update(Grade grade) {
 		String query = "UPDATE team SET gradeEssay=?, gradePresentation=? grade WHERE ID_student1=? AND ID_student2=? AND ID_project=?";
@@ -146,32 +109,6 @@ public class GradeDAO implements CRUDDAO<Grade, Integer>{
 		return allGrades;
 	}
 	
-	private Student getStudent(Integer id) {
-		
-		Student student = null;
-        ResultSet resultSet = null;
-        String query = "SELECT * FROM student WHERE ID_student = ?";
-        
-        try {
-            PreparedStatement preparedStatement = this.connection.prepareStatement(query);
-            preparedStatement.setInt(1, id);
-            resultSet = preparedStatement.executeQuery();
-
-            if (resultSet.next()) {
-                String fullName = resultSet.getString("fullName");
-                LocalDate dateOfBirth = resultSet.getDate("dateOfBirth").toLocalDate();
-                Sex sex = Sex.valueOf(resultSet.getString("sex"));
-                String address = resultSet.getString("address");
-                String email = resultSet.getString("email");
-                int programId = resultSet.getInt("ID_program");
-
-                student = new Student(id, fullName, dateOfBirth, sex, address, email, programId);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } 
-
-        return student;
-    }
+	
 
 }

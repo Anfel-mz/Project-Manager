@@ -51,7 +51,7 @@ public class Project {
 		return deadline;
 	}
 
-	public void setDeadline(LocalDate deadline) {
+	 public void setDeadline(LocalDate deadline) {
 		this.deadline = deadline;
 	}
 	

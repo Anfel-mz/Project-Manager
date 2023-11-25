@@ -65,7 +65,7 @@ public class StudentDAOTest {
         System.out.println("Student created: " + newStudent);
 
         // Read the student
-        Student readStudent = studentDAO.read(newStudent.getId());
+        Student readStudent = studentDAO.getStudent(newStudent.getId());
         System.out.println("Read student: " + readStudent);
 
         // Update the student

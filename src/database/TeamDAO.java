@@ -1,5 +1,4 @@
 package database;
-import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,8 +7,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import model.*;
-import util.*;
-
 /**
  * Team (#ID_student1, #ID_student2, #ID_project, dateOfSubmit)
  * use private methods to verify the constraints you have on your objects (like if the project already exisits in the database
@@ -17,12 +14,11 @@ import util.*;
  *
  */
 
-public class TeamDAO implements CRUDDAO<Team,Integer>{
+public class TeamDAO extends AbstractDAO implements CRUDDAO<Team>{
 
-	private Connection connection;
 	
 	public 	TeamDAO() {
-		connection = DatabaseConnection.getConnection();
+		super();
 	}
 	
 	@Override
@@ -43,37 +39,6 @@ public class TeamDAO implements CRUDDAO<Team,Integer>{
         e.printStackTrace();
     }
 		
-	}
-
-	@Override
-	public Team read(Integer a) {
-		
-		return null;
-	}
-	
-	public Team read(int idstudent1, int idstudent2, int idProject) {
-		
-		Team team = null;
-        ResultSet resultSet = null;
-        String query = "SELECT * FROM team WHERE ID_student1 = ? AND ID_student2 = ? AND ID_Project = ?";
-        
-        try {
-            PreparedStatement preparedStatement = this.connection.prepareStatement(query);
-            preparedStatement.setInt(1, idstudent1); 
-            preparedStatement.setInt(2, idstudent2); 
-            preparedStatement.setInt(3, idProject);   
-            
-            resultSet = preparedStatement.executeQuery();
-
-            if (resultSet.next()) {
-                LocalDate dateOfSubmit = resultSet.getDate("dateOfSubmit").toLocalDate();
-                team = new Team (getStudent(idstudent1), getStudent(idstudent2), idProject, dateOfSubmit);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } 
-
-        return team;
 	}
 
 	@Override
@@ -137,36 +102,5 @@ public class TeamDAO implements CRUDDAO<Team,Integer>{
 		return allTeams;
 		
 	}
-	
-	
-	
-	private Student getStudent(Integer id) {
-		
-		Student student = null;
-        ResultSet resultSet = null;
-        String query = "SELECT * FROM student WHERE ID_student = ?";
-        
-        try {
-            PreparedStatement preparedStatement = this.connection.prepareStatement(query);
-            preparedStatement.setInt(1, id);
-            resultSet = preparedStatement.executeQuery();
-
-            if (resultSet.next()) {
-                String fullName = resultSet.getString("fullName");
-                LocalDate dateOfBirth = resultSet.getDate("dateOfBirth").toLocalDate();
-                Sex sex = Sex.valueOf(resultSet.getString("sex"));
-                String address = resultSet.getString("address");
-                String email = resultSet.getString("email");
-                int programId = resultSet.getInt("ID_program");
-
-                student = new Student(id, fullName, dateOfBirth, sex, address, email, programId);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } 
-
-        return student;
-    }
-	
 
 }
