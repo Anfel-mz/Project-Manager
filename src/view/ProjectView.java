@@ -24,6 +24,8 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.TitledBorder;
+import javax.swing.JTextArea;
+import javax.swing.JTextPane;
 
 public class ProjectView extends JFrame {
 
@@ -90,14 +92,28 @@ public class ProjectView extends JFrame {
 						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 537, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap(36, Short.MAX_VALUE))
 		);
+		
+		JLabel lblEnterInformationTo = new JLabel("enter information to create project");
+		lblEnterInformationTo.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		
+		JTextPane textPane = new JTextPane();
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1.setHorizontalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 464, Short.MAX_VALUE)
+				.addGroup(gl_panel_1.createSequentialGroup()
+					.addGap(87)
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+						.addComponent(textPane, GroupLayout.PREFERRED_SIZE, 166, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblEnterInformationTo))
+					.addContainerGap(111, Short.MAX_VALUE))
 		);
 		gl_panel_1.setVerticalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 537, Short.MAX_VALUE)
+				.addGroup(gl_panel_1.createSequentialGroup()
+					.addComponent(lblEnterInformationTo, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
+					.addGap(180)
+					.addComponent(textPane, GroupLayout.PREFERRED_SIZE, 104, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(222, Short.MAX_VALUE))
 		);
 		panel_1.setLayout(gl_panel_1);
 		
